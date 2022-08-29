@@ -72,10 +72,6 @@ namespace H1_Elon_s_Nye_Satsning
                         isRunning = false;
                         break;
 
-                    // Charge car1
-                        car2.Charge();
-                        break;
-
                     // All other keys just continue running the loop.
                     default:
                         break;
