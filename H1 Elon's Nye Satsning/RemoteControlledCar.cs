@@ -76,7 +76,9 @@ namespace H1_Elon_s_Nye_Satsning
         }
 
         private int yPos;
-
+        /// <summary>
+        /// The position of the car on the y axis
+        /// </summary>
         public int YPos
         {
             get { return yPos; }
@@ -94,6 +96,9 @@ namespace H1_Elon_s_Nye_Satsning
             YPos = yPos;
         }
 
+        /// <summary>
+        /// Simulates the car driving 1 meter in the specified direction.
+        /// </summary>
         public void Drive(Direction direction)
         {
             int maxX = 60;
@@ -126,8 +131,7 @@ namespace H1_Elon_s_Nye_Satsning
                 // Car has now driven 1 more metre
                 DrivenMetres++;
 
-                // Deplete battery every time the car has driven as many metres as defined in
-                // MetresPerBatteryPercentage
+                // Deplete battery every time the car has driven as many metres as defined in MetresPerBatteryPercentage
                 if (DrivenMetres > 0 &&
                     DrivenMetres % MetresPerBatteryPercentage == 0)
                 { 
@@ -145,6 +149,9 @@ namespace H1_Elon_s_Nye_Satsning
             DrivenMetres = 0;
         }
 
+        /// <summary>
+        /// Remove 1% from the cars current battery charge.
+        /// </summary>
         public void DepleteBattery()
         {
             CurrentBattery--;

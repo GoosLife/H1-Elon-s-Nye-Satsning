@@ -7,22 +7,25 @@ namespace H1_Elon_s_Nye_Satsning
     {
         static void Main(string[] args)
         {
+            // The game loop runs on this bool
             bool isRunning = true;
 
+            // Create cars
             RemoteControlledCar car1 = new RemoteControlledCar(xPos: 0, yPos: 0);
             RemoteControlledCar car2 = new RemoteControlledCar("Green", 30, 30);
 
+            // Add to list of cars
             List<RemoteControlledCar> cars = new List<RemoteControlledCar>();
             cars.Add(car1);
             cars.Add(car2);
 
+            // "Game" loop
             while (isRunning)
             {
-                // Draw cars and HUD on console
-                DrawCars(cars);
-                DrawCarHUD(cars);
+                // Draw cars and HUD to console
+                DrawGraphics(cars);
                 
-                // Read and respond to input
+                // Input handler
                 ConsoleKey input = Console.ReadKey(true).Key;
 
                 switch (input)
@@ -44,7 +47,7 @@ namespace H1_Elon_s_Nye_Satsning
                         EraseTrack(car1);
                         car1.Drive(Direction.EAST);
                         break;
-                    case ConsoleKey.Enter:
+                    case ConsoleKey.Tab: // Charge the car
                         car1.Charge();
                         break;
 
@@ -65,7 +68,9 @@ namespace H1_Elon_s_Nye_Satsning
                         EraseTrack(car2);
                         car2.Drive(Direction.EAST);
                         break;
-                        // Decide which key car2 should charge on
+                    case ConsoleKey.Enter: // Charge the car
+                        car2.Charge();
+                        break;
 
                     // Break driving loop
                     case ConsoleKey.Escape:
@@ -78,7 +83,7 @@ namespace H1_Elon_s_Nye_Satsning
                 }
             }
 
-
+            // Press a key before the console window closes
             Console.ReadKey();
         }
 
@@ -93,21 +98,19 @@ namespace H1_Elon_s_Nye_Satsning
         }
 
         /// <summary>
-        /// Move the cars around on the console.
+        /// Draws graphics to console, i.e. the cars at their positions and the hud indicating their battery level and metres driven since last charge.
         /// </summary>
         /// <param name="cars"></param>
-        static void DrawCars(List<RemoteControlledCar> cars)
+        static void DrawGraphics(List<RemoteControlledCar> cars)
         {
-            foreach (RemoteControlledCar c in cars)
+            for (int i = 0; i < cars.Count; i++)
             {
-                // Draw car at the cars current position
-                Console.SetCursorPosition(c.XPos, c.YPos);
+                // Convert object string with the cars color value to System.ConsoleColor
+                Console.ForegroundColor = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), cars[i].Color);
 
-                // Convert object string with color value to System.ConsoleColor
-                Console.ForegroundColor = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), c.Color);
+                DrawCar(cars[i]);
 
-                // Write an H representing the car.
-                Console.Write('H');
+                DrawCarHUD(cars[i], i);
 
                 // Reset console color to default.
                 Console.ResetColor();
@@ -115,22 +118,29 @@ namespace H1_Elon_s_Nye_Satsning
         }
 
         /// <summary>
+        /// Draw a car at the cars x,y coordinate in the console.
+        /// </summary>
+        /// <param name="car"></param>
+        static void DrawCar(RemoteControlledCar c)
+        {
+            // Draw car at the cars current position
+            Console.SetCursorPosition(c.XPos, c.YPos);
+
+            // Write an H representing the car.
+            Console.Write('H');
+        }
+
+        /// <summary>
         /// Write current battery charge and metres driven since last charge to console.
         /// </summary>
         /// <param name="cars"></param>
-        static void DrawCarHUD(List<RemoteControlledCar> cars)
+        static void DrawCarHUD(RemoteControlledCar c, int i)
         {
-            for (int i = 0; i < cars.Count; i++)
-            {
-                // Convert object string with color value to System.ConsoleColor
-                Console.ForegroundColor = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), cars[i].Color);
-
                 // Set cursor position to write details about the cars battery and currently driven distance in the side.
                 Console.SetCursorPosition(70, 10 * i);
 
                 // Write details to console.
-                Console.Write("Car " + i + " | Battery: " + cars[i].CurrentBattery + " | Metres since last charge: " + cars[i].DrivenMetres + "   ");
-            }
+                Console.Write("Car " + i + " | Battery: " + c.CurrentBattery + " | Metres since last charge: " + c.DrivenMetres + "   ");
         }
     }
 }
