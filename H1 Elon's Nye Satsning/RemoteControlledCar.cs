@@ -142,6 +142,7 @@ namespace H1_Elon_s_Nye_Satsning
         public void Charge()
         {
             CurrentBattery = MaxBatteryCapacity;
+            DrivenMetres = 0;
         }
 
         public void DepleteBattery()
