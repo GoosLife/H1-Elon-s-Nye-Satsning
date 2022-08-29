@@ -65,6 +65,7 @@ namespace H1_Elon_s_Nye_Satsning
                         EraseTrack(car2);
                         car2.Drive(Direction.EAST);
                         break;
+                        // Decide which key car2 should charge on
 
                     // Break driving loop
                     case ConsoleKey.Escape:
