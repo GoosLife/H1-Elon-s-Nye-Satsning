@@ -46,6 +46,7 @@ namespace H1_Elon_s_Nye_Satsning
                         break;
                     case ConsoleKey.Enter:
                         car1.Charge();
+                        break;
 
                     // Car2 controls
                     case ConsoleKey.UpArrow:
