@@ -104,6 +104,23 @@ namespace H1_Elon_s_Nye_Satsning
             int maxX = 60;
             int maxY = 40;
 
+            // If car isn't stuck on the edge of the map, it has driven one additional meter.
+            if ((direction == Direction.NORTH && YPos != 0) ||
+                (direction == Direction.SOUTH && YPos != maxY) ||
+                (direction == Direction.EAST && XPos != maxX) ||
+                (direction == Direction.WEST && XPos != 0))
+            {
+                DrivenMetres++;
+
+                // Deplete battery every time the car has driven as many metres as defined in MetresPerBatteryPercentage
+                if (DrivenMetres > 0 &&
+                    DrivenMetres % MetresPerBatteryPercentage == 0)
+                {
+                    DepleteBattery();
+                }
+            }
+
+            // Update the cars position based on its current location and direction
             if (CurrentBattery > 0)
             {
                 switch(direction)
@@ -126,22 +143,6 @@ namespace H1_Elon_s_Nye_Satsning
                         break;
                     default:
                         throw new ArgumentOutOfRangeException("Attempted to drive in non-existing direction.");
-                }
-
-                // If car isn't stuck on the edge of the map, it has driven one additional meter.
-                if ((direction == Direction.NORTH && YPos != 0) ||
-                    (direction == Direction.SOUTH && YPos != maxY) ||
-                    (direction == Direction.EAST && XPos != maxX) ||
-                    (direction == Direction.WEST && XPos != 0))
-                {
-                    DrivenMetres++;
-                }
-
-                // Deplete battery every time the car has driven as many metres as defined in MetresPerBatteryPercentage
-                if (DrivenMetres > 0 &&
-                    DrivenMetres % MetresPerBatteryPercentage == 0)
-                { 
-                    DepleteBattery(); 
                 }
             }
         }
