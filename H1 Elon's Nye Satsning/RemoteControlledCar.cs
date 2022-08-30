@@ -128,8 +128,14 @@ namespace H1_Elon_s_Nye_Satsning
                         throw new ArgumentOutOfRangeException("Attempted to drive in non-existing direction.");
                 }
 
-                // Car has now driven 1 more metre
-                DrivenMetres++;
+                // If car isn't stuck on the edge of the map, it has driven one additional meter.
+                if ((direction == Direction.NORTH && YPos != 0) ||
+                    (direction == Direction.SOUTH && YPos != maxY) ||
+                    (direction == Direction.EAST && XPos != maxX) ||
+                    (direction == Direction.WEST && XPos != 0))
+                {
+                    DrivenMetres++;
+                }
 
                 // Deplete battery every time the car has driven as many metres as defined in MetresPerBatteryPercentage
                 if (DrivenMetres > 0 &&
